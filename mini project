@@ -1,0 +1,46 @@
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+public class SmartBot {
+    private static boolean exit = false;
+
+    public static void main(String[] args) {
+        Thread chatbotThread = new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Hello! I'm SmartBot. Ask me something or type 'exit' to quit.");
+
+            while (!exit) {
+                System.out.print("You: ");
+                String userInput = scanner.nextLine();
+                if (userInput.equalsIgnoreCase("exit")) {
+                    exit = true;
+                    System.out.println("SmartBot: Goodbye!");
+                } else {
+                    String response = generateResponse(userInput);
+                    System.out.println("SmartBot: " + response);
+                }
+            }
+
+            scanner.close();
+        });
+chatbotThread.start();
+    }
+
+    private static String generateResponse(String input) {
+        input = input.toLowerCase();
+        if (Pattern.compile("hello|hi|hey").matcher(input).find()) {
+            return "Hello! How can I help you today?";
+        } else if (Pattern.compile("how are you").matcher(input).find()) {
+            return "I'm just a bot, but I'm here to help!";
+        } else if (Pattern.compile("name").matcher(input).find()) {
+            return "I'm SmartBot, your friendly assistant.";
+        } else if (Pattern.compile("weather").matcher(input).find()) {
+            return "I can't check the weather, but you can look it up online!";
+        } else if (Pattern.compile("thank you|thanks").matcher(input).find()) {
+            return "You're welcome!";
+        } else {
+            return "I'm not sure about that. Can you ask something else?";
+ }
+}
+}
